@@ -1,0 +1,47 @@
+태그
+<> --- </> 기본적인 구조
+<!DOCTYPE html>
+<html> --- </html> HTML 문서의 루트 요소 (처음과 끝에 표기)
+<head> --- </head> 문서의 메타 데이터를 포함
+    <title> --- </title> 웹 페이지의 제목을 정의
+<body> --- </body> 실제 콘텐츠를 포함
+
+<strong> --- </strong> 굵은 글씨로 표시 (강조)
+<h1> --- </h1> 제목
+<h2> --- </h2> h1보단 작은 제목
+<a href="사이트 링크"> --- </a> 사이트 링크를 연결 시켜줌
+<a href="사이트 링크" title="작은 글씨"> --- </a> 미리보기로 보여줌
+<a href="사이트 링크" target="_blank"> --- </a> 새 탭에서 사이트 링크를 열기
+
+<li> --- </li> ● 리스트를 만들어줌
+<ul> --- </ul> 리스트를 순서가 없는 그룹핑으로 만들어줌
+<ol> --- </ol> 리스트를 순서가 있는 그룹핑으로 만들어줌
+<p> --- </p> 단락으로 표시
+<br> 다음 줄로 이동하는 태그
+<img src="파일명.파일형식" width=수1 height=수2> 가로 수1, 높이 수2인 이미지를 부르기 
+<img src="파일명.파일형식" width=수1 height=수2 alt="x"> 이미지가 깨져서 이미지를 보여줄 수 없을 때 "x"라고 표기
+
+<table border="수"> --- </table> 수가 크면 클수록 표 선이 두꺼워짐 (표 처음과 끝에 적으면 됌)
+<tr> --- </tr> 한 행을 하나로 묶음
+<thead> --- </thead> table 안에 어느 위치에 적든 맨 위로 올라감
+<th> --- </th> 열의 맨 윗 부분 (진해짐)
+<tbody> --- </tbody> table 안에 어느 위치에 적든 중간으로 감
+<td> --- </td> 하나하나를 행이라고 만듬
+<tfoot> --- </tfoot> table 안에 어느 위치에 적든 맨 아래로 내려감
+<td rowspan="수"> 위 아래로 수 만큼 합치기
+<td colspan="수"> 양 옆으로 수 만큼 합치기
+
+<form action="서버 주소"> --- </form> 안에 있는 데이터를 서버주소로 데이터를 보냄
+<input type="text"> 틀을 만들어줌
+<input type="password"> 입력 값을 *로 표시되게 만듬
+<input type="text" name="이름"> 틀을 중복해서 만들었을 경우, 입력 값을 "이름"에 저장
+<input type="submit"> 제출이라는 표시가 뜨고, 누를 시 서버주소로 데이터를 보냄
+<input value="기본 값"> 처음 열었을때, 비어 있는 틀을 "기본값"으로 지정해줌
+
+<textarea> --- </textarea> 여러 줄을 입력 할 수 있는 틀을 만들어줌, 사이 입력 값은 기본 값
+<textarea cols="수"> 수 만큼의 글자가 들어갈 수 있는 폭이 커짐
+<textarea rows="수"> 수 만큼의 글자가 들어갈 수 있는 줄이 생김
+
+<select name="이름"> --- </select> 입력 값을 "이름"에 저장
+<select name="이름" multiple> --- </select> 사용자가 입력을 여러 개 할 수 있도록 해줌
+<option vaule="보낼 값"> --- </option> ---을 선택하면 "보낼 값"을 컴퓨터에 보냄
