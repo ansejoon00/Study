@@ -1,0 +1,62 @@
+SSH 기본에 대해선 https://github.com/ansejoon00/Study/blob/main/Network/SSH
+
+Putty
+  Putty는 원격 서버에 안전하게 접속하기 위한 클라이언트 프로그램이다.
+  특히 SSH(보안 셸) 프로토콜을 사용하여 원격으로 리눅스 또는 유닉스 기반의 서버에 접속하는 데 주로 사용된다.
+  다른 원격 접속 도구들과 달리 Putty는 가벼우면서도 무료로 제공되어 많은 사용자들에게 인기가 있다.
+
+  ① 복사
+    - Putty 창에서 복사하고 싶은 명령어 또는 텍스트를 드레그한다. 그러면 드래그한 내용이 복사상태가 된다.
+​
+  ② 붙여넣기
+    - Putty 창의 명령행에 커셔를 놓고, 마우스 오른쪽 버튼을 클릭한다. 그러면 해당 내용이 붙여넣기가 되며 명령어가 실행이 된다.
+​
+  ③ 외부 복붙
+    - 다른 텍스트 에디터에서 복사를 해 온 경우에도, 마찬가지로 Putty 창의 명령행에 커셔를 놓고, 마우스 오른쪽 버튼을 클릭한다
+
+[VMware Ubuntu에서 <local> window Putty 연결]
+초기 상태. 네트워크 설정이 'Bridged' 혹은 'NAT'으로 구성되어야 된다.
+
+1. ssh 설치
+  sudo apt-get install ssh
+
+2. openssh-server 설치
+  sudo apt-get install openssh-server
+
+3. ssh 재시작
+  sudo /etc/init.d/ssh restart
+    1) sudo service ssh start - 시작
+    2) sudo service ssh stop - 정지
+    3) sudo service ssh status - 상태 확인
+
+4. IP주소 확인(Ethernet 부분의 inet addr 주소 확인)
+  ifconfig (sudo apt-get install net-tools 해야 사용 가능)
+  대체 명령어. ip addr / hostname -i / hostname -I
+
+5. "Virtual Network Editor" 프로그램 설치 후 실행  
+
+6. Change Settings 선택
+
+7. VMnet 8 선택 > 맨 아래 Check box 2개 모두 선택 > 그 위에 NAT Settings...를 선택
+
+8. Add 선택
+
+9. [VMware Ubuntu 에서 확인한 IP] 정보를 입력 후 OK 선택
+  Host port에 이미 사용중인 포트 번호를 입력하면 충돌이 나서 서비스가 제대로 안될 수 있으므로 System에서 사용하는 번호(1~1024)를 제외한 그 외 번호를 입력!
+
+10. OK 버튼을 선택하여 설정 저장
+
+11. Putty를 실행해서 VMware Ubuntu의 IP 주소와 Port번호(기본 값은 22)를 입력해서 접속.
+
+12. 아이디, 비밀번호 입력 > 제대로 입력했다면 정상적으로 연결된 것을 확인 가능
+
+예외) 
+혹시나 Putty가 없을 때... 윈도우 CMD 창 접속 방법...
+  C:\Users\user>ssh -p <포트 번호> <사용자 이름>@<VMware Ubuntu 에서 확인한 IP>
+
+혹시나 접속이 정상적으로 되지 않을 경우...
+  1. 윈도우 방화벽규칙 > 접속이 되는 포트를 열어주기.
+    제어판 > 시스템 및 보안 > Windows Defender 방화벽 > 고급설정 > 인바운드 규칙 > 
+    우측 새규칙 > 포트 선택 > 포트 번호를 적어주고 완료
+  2. 리눅스 방화벽 끄기
+    sudo ufw disable - 명령어를 통해 방화벽 끄기 ( 방화벽 다시 키려면 sudo ufw enable )
