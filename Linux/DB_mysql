@@ -1,0 +1,73 @@
+root 권한으로 접속한다.
+  su -
+
+MySQL 설치
+  apt install mysql-server
+
+MySQL 시작
+  service mysql start 또는 systemctl start mysql
+
+MySQL C API 및 MySQL Connector 설치
+  apt install libmysqlclient-dev
+  apt install libmysqlcppconn-dev
+
+MySQL에 로그인
+  mysql -u root -p
+
+MySQL 사용자 생성
+  CREATE USER '사용자이름'@'%' IDENTIFIED WITH mysql_native_password BY '원하는 비밀번호';
+
+  CREATE USER '사용자이름'@'%' IDENTIFIED BY '원하는 비밀번호';
+
+MySQL 사용자 확인
+  SELECT user FROM mysql.user;
+
+비밀번호 까먹었을 시에 root 계정에서
+  SET PASSWORD FOR '사용자이름'@'%' = PASSWORD('새로운 비밀번호');
+  ALTER USER '사용자이름'@'%' IDENTIFIED WITH mysql_native_password BY '새로운 비밀번호';
+  
+  GRANT ALL PRIVILEGES ON *.* TO '사용자이름'@'%' IDENTIFIED BY '비밀번호' WITH GRANT OPTION;
+
+/etc/mysql/mysql.conf.d/mysqld.cnf 원하는 편집기로 열어서
+[mysqld]
+...
+  # bind-address = 127.0.0.1
+   부분을
+  bind-address = 0.0.0.0  //외부 IP 허용
+   으로 변경
+
+  default-authentication-plugin=mysql_native_password
+  default_authentication_plugin=caching_sha2_password
+  plugin-load-add = authentication_caching_sha2_password.dll
+[]
+
+MySQL 버전 확인
+  SELECT VERSION();
+
+보안 낮추기
+  SET GLOBAL validate_password.policy = 0; //패스워드 정책을 무시
+  SET GLOBAL validate_password.policy = MEDIUM;
+
+포트 열어주기
+  ufw allow 3306 //DB 연결 내부 포트
+  ufw allow mysql
+
+ufw 방화벽
+  ufw enable //활성화
+  ufw status //상태 확인
+  ufw disable //비활성화
+
+위 설정을 적용하고, 재시작을 위해
+  service mysql restart
+
+데이터베이스 생성
+  CREATE DATABASE 데이터베이스이름;
+  GRANT ALL PRIVILEGES ON 데이터베이스이름.* TO '사용자이름'@'%';
+  FLUSH PRIVILEGES;
+
+  USE 데이터베이스이름;
+
+데이터베이스에 테이블 생성
+  CREATE TABLE IF NOT EXISTS 테이블명 (
+      ...
+  );
