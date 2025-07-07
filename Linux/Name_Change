@@ -1,0 +1,88 @@
+sejoon@sejoon-server:~$
+여기서:
+   sejoon → 사용자 계정명 (Username)
+   sejoon-server → 호스트명 (Hostname)
+
+[사용자 계정명 변경 sejoon -> asj]
+
+방법 1. 사용자를 추가하지 않고 사용자 계정명 변경
+root 계정 활성화
+   sudo passwd root
+
+root 계정 로그인
+   su -
+
+사용자 이름 변경
+   usermod -l asj sejoon
+
+홈 디렉토리 이름도 변경
+   usermod -d /home/asj -m asj
+
+기존 그룹명도 변경
+   groupmod -n asj sejoon
+
+재로그인 또는 재부팅
+   reboot
+
+방법 2. 사용자를 추가하고 파일 옮기고 원래 사용자 삭제
+새 계정 생성
+   adduser asj
+
+   root@sejoon-Server:~# adduser asj
+   Adding user `asj' ...
+   Adding new group `asj' (1002) ...
+   Adding new user `asj' (1002) with group `asj' ...
+   Creating home directory `/home/asj' ...
+   Copying files from `/etc/skel' ...
+   New password:
+   Retype new password:
+   passwd: password updated successfully
+   Changing the user information for asj
+   Enter the new value, or press ENTER for the default
+         Full Name []:      ← [엔터]
+         Room Number []:      ← [엔터]
+         Work Phone []:      ← [엔터]
+         Home Phone []:      ← [엔터]
+         Other []:         ← [엔터]
+   Is the information correct? [Y/n] Y
+
+sejoon의 파일을 모두 asj로 옮기기
+   rsync -a /home/sejoon/ /home/asj/
+
+소유자 변경
+   chown -R asj:asj /home/asj
+
+필요 시 sudo 권한 부여
+   usermod -aG sudo asj
+
+확인 후 기존 계정 삭제
+   deluser --remove-home sejoon
+
+이후 로그인
+   asj@sejoon-Server:~$
+
+변경 확인
+root@sejoon-Server:/home/asj# cut -d: -f1 /etc/passwd
+root
+... 시스템에 등록된 모든 계정 
+asj
+root@sejoon-Server:/home/asj# awk -F: '$3 >= 1000 && $3 < 65534 {print $1}' /etc/passwd
+asj
+
+==================================================
+
+호스트명 변경 // sejoon-server -> Test-Server
+   sudo hostnamectl set-hostname Test-Server
+
+/etc/hosts 파일 수정
+   sudo vi /etc/hosts
+   127.0.1.1    sejoon-server # 원래 이름
+   부분을 찾아
+   127.0.1.1    Test-Server # 변경할 이름
+
+즉시 적용
+   exec bash
+또는 재부팅
+   sudo reboot
+
+asj@Test-Server:~$
