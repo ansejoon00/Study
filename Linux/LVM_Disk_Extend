@@ -1,0 +1,37 @@
+✅ 1. 디스크 상태 확인
+lsblk 또는 sudo fdisk -l
+→ /dev/sda의 남은 공간이 있다면 계속 진행
+
+✅ 2. 새 파티션 (/dev/sda4) 생성
+sudo fdisk /dev/sda
+
+입력 순서:
+n          ← 새 파티션 생성
+p          ← 기본 파티션
+4          ← 파티션 번호
+[Enter]    ← 시작 섹터 (기본값)
++20G       ← ★ 20GB 크기 지정 (단위 G 필수)
+t          ← 파티션 타입 변경
+4          ← 4번 파티션 선택
+8e         ← Linux LVM 타입
+w          ← 저장 및 종료
+
+✅ 3. 새 파티션 시스템에 반영
+sudo partprobe
+
+✅ 4. 새 파티션을 LVM에 추가
+4-1. Physical Volume으로 초기화
+sudo pvcreate /dev/sda4
+
+4-2. Volume Group에 추가
+sudo vgextend ubuntu-vg /dev/sda4
+
+✅ 5. 루트 Logical Volume에 20GB 확장
+sudo lvextend -L +20G /dev/mapper/ubuntu--vg-ubuntu--lv
+
+✅ 6. 파일시스템 확장
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+
+✅ 7. 최종 확인
+df -h
+→ / 파티션이 기존보다 20GB 늘어난 것을 확인
